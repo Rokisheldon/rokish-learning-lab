@@ -263,7 +263,7 @@
 
   function planCard(plan, subject, grade, track) {
     return `<article class="curriculum-plan">
-      <div class="plan-heading"><span class="lesson-icon ${subject === "Mathematics" ? "mint" : "sky"}">${subject === "Mathematics" ? "∑" : "✦"}</span><div><span class="lesson-meta">GRADE ${grade} · ${escapeHtml(subject)}</span><h2>${escapeHtml(plan.title)}</h2></div></div>
+      <div class="plan-heading"><span class="lesson-icon ${subject === "Mathematics" ? "mint" : "sky"}">${subject === "Mathematics" ? "∑" : "⚗"}</span><div><span class="lesson-meta">GRADE ${grade} · ${escapeHtml(subject)}</span><h2>${escapeHtml(plan.title)}</h2></div></div>
       <p class="plan-strand">${escapeHtml(plan.strand)} <span>·</span> Suggested learning focus</p>
       ${diagramMarkup(plan.visual, plan.title)}
       <div class="plan-section"><span class="eyebrow">LEARNING INTENTION</span><p>${escapeHtml(plan.objective)}</p></div>
@@ -295,7 +295,7 @@
       <section class="practice-card" id="practice-card" data-lesson="${lesson.id}"><div class="practice-top"><span class="lesson-icon ${lesson.color}">${lesson.icon}</span><div><span class="lesson-meta">${escapeHtml(lesson.subject)} <i>·</i> ${escapeHtml(lesson.grade)}</span><h2>${escapeHtml(lesson.unit)}</h2></div><span class="practice-tag">ONE QUESTION</span></div>
       ${assessmentMarkup(lesson.check, `practice-${lesson.id}`, `data-lesson="${lesson.id}"`)}
       <div class="practice-actions"><button class="button button-outline" data-view="learn">Explore this topic</button><button class="button button-dark" id="new-question">Another question <span>↻</span></button></div></section>
-      <div class="practice-tip"><span>✦</span><p><strong>It's okay to get one wrong.</strong> Read the explanation, notice the idea, and try again. That's how learning grows.</p></div>`;
+      <div class="practice-tip"><span aria-hidden="true">i</span><p><strong>It's okay to get one wrong.</strong> Read the explanation, notice the idea, and try again. That's how learning grows.</p></div>`;
   }
 
   function mathGameView() {
@@ -303,7 +303,7 @@
     const levelOptions = Object.entries(levelNames).map(([value, label]) => `<option value="${value}" ${activeGameLevel === value ? "selected" : ""}>${label}</option>`).join("");
     const modeNames = { quest: "Math Quest", patterns: "Pattern Detective" };
     const modeOptions = Object.entries(modeNames).map(([value, label]) => `<option value="${value}" ${activeGameMode === value ? "selected" : ""}>${label}</option>`).join("");
-    let gameContent = `<div class="game-start-panel"><span class="game-star" aria-hidden="true">✦</span><h2>Choose a game and get curious.</h2><p>Play five questions at your pace. Think it through, and learn from every answer. There is no timer and no penalty for getting one wrong.</p><div class="game-setup-fields"><label class="game-level-picker">Choose a game<select id="math-game-mode">${modeOptions}</select></label><label class="game-level-picker">Choose your level<select id="math-game-level">${levelOptions}</select></label></div><button class="button button-dark" id="start-math-game">Start my round <span>→</span></button></div>`;
+    let gameContent = `<div class="game-start-panel"><span class="game-mark" aria-hidden="true">⚄</span><h2>Choose a game and get curious.</h2><p>Play five questions at your pace. Think it through, and learn from every answer. There is no timer and no penalty for getting one wrong.</p><div class="game-setup-fields"><label class="game-level-picker">Choose a game<select id="math-game-mode">${modeOptions}</select></label><label class="game-level-picker">Choose your level<select id="math-game-level">${levelOptions}</select></label></div><button class="button button-dark" id="start-math-game">Start my round <span>→</span></button></div>`;
     if (mathGame.status === "playing") {
       const question = mathGame.round[mathGame.current];
       const progress = (mathGame.current / mathGame.round.length) * 100;
@@ -325,11 +325,11 @@
         ${mathGame.answered ? `<button class="button button-dark game-continue" id="continue-math-game">${mathGame.current === mathGame.round.length - 1 ? "See my results" : "Next question"} <span>→</span></button>` : ""}</section>`;
     } else if (mathGame.status === "complete") {
       const message = mathGame.correct === mathGame.round.length ? "A perfect round — brilliant work!" : mathGame.correct >= 3 ? "Great effort. Every question helped you practise." : "You showed up and practised. That is how skills grow.";
-      gameContent = `<div class="game-results"><span class="game-star" aria-hidden="true">${mathGame.correct === mathGame.round.length ? "★" : "✦"}</span><span class="eyebrow">ROUND COMPLETE</span><h2 tabindex="-1">${message}</h2><p class="game-score">${mathGame.score}<small> points</small></p><p>${mathGame.correct} of ${mathGame.round.length} correct · best streak ${mathGame.bestStreak || 0}</p><p class="game-best">Personal best: ${state.bestGameScore} points</p><button class="button button-dark" id="start-math-game">Play another round <span>↻</span></button><button class="text-link change-game" id="change-math-game">Choose another game or level</button></div>`;
+      gameContent = `<div class="game-results"><span class="game-mark" aria-hidden="true">${mathGame.correct === mathGame.round.length ? "✓" : "↻"}</span><span class="eyebrow">ROUND COMPLETE</span><h2 tabindex="-1">${message}</h2><p class="game-score">${mathGame.score}<small> points</small></p><p>${mathGame.correct} of ${mathGame.round.length} correct · best streak ${mathGame.bestStreak || 0}</p><p class="game-best">Personal best: ${state.bestGameScore} points</p><button class="button button-dark" id="start-math-game">Play another round <span>↻</span></button><button class="text-link change-game" id="change-math-game">Choose another game or level</button></div>`;
     }
     return `<section class="page-intro"><span class="eyebrow"><span class="eyebrow-line"></span> PLAY · THINK · LEARN</span><h1>Maths is a <em>great adventure.</em></h1><p>Build number sense and confidence with a short quiz game using questions from our Mathematics lessons and grade plans.</p></section>
       <section class="math-game-shell"><div class="math-game-heading"><div><span class="eyebrow">${escapeHtml(modeNames[activeGameMode].toUpperCase())}</span><h2>Five questions. Your pace.</h2></div><span class="game-best-badge">PERSONAL BEST · ${state.bestGameScore}</span></div>${gameContent}</section>
-      <div class="practice-tip"><span>✦</span><p><strong>Games are for learning, not pressure.</strong> Take your time. After each choice, read the explanation and notice how the idea works.</p></div>`;
+      <div class="practice-tip"><span aria-hidden="true">i</span><p><strong>Games are for learning, not pressure.</strong> Take your time. After each choice, read the explanation and notice how the idea works.</p></div>`;
   }
 
   function labView() {
@@ -352,7 +352,7 @@
       </div>
     </details>`).join("");
     return `<section class="page-intro"><span class="eyebrow"><span class="eyebrow-line"></span> LEARN BY INVESTIGATING</span><h1>A STEM Lab is a <em>way of learning.</em></h1><p>Offline-ready activities use shared, low-cost materials and local questions. Learners predict, test, record evidence, explain and improve ideas.</p></section>
-      <section class="lab-principle"><span class="lab-principle-icon">✦</span><div><strong>Start with a question, not a kit.</strong><p>Designed for group rotation, limited equipment and unreliable connectivity. Adapt the age band, time and materials to your class and check activities against the current approved curriculum and school safety procedures.</p></div></section>
+      <section class="lab-principle"><span class="lab-principle-icon" aria-hidden="true">⚗</span><div><strong>Start with a question, not a kit.</strong><p>Designed for group rotation, limited equipment and unreliable connectivity. Adapt the age band, time and materials to your class and check activities against the current approved curriculum and school safety procedures.</p></div></section>
       <section class="lab-toolkit"><div class="section-heading"><div><span class="eyebrow">ACTIVITY LIBRARY</span><h2>Choose an investigation</h2></div><span class="lab-count">${filtered.length} activities</span></div><div class="filter-row">${areaButtons}</div><div class="lab-activities">${activities}</div></section>
       <section class="lab-teaching-note"><span class="eyebrow">FOR LARGE CLASSES</span><h2>Give every learner a role</h2><p>In groups of about 6–8, rotate roles such as questioner, materials manager, tester, recorder, safety checker and reporter. When materials are scarce, use one activity station at a time and have other groups predict, sketch or analyse shared results. Make sure each learner explains evidence, not just the group reporter.</p></section>
       <p class="lab-disclaimer">These are original teaching ideas, not official KICD curriculum content or a substitute for teacher judgment. Check local materials, learner needs, environmental conditions and safety before use.</p>`;
@@ -387,11 +387,11 @@
           <button class="button button-dark" type="submit">Add to my plan <span>+</span></button>
         </form>
         <div class="planner-list">
-          <section class="task-group"><div class="task-group-heading"><h2>Up next</h2><span>${upcoming.length}</span></div>${upcoming.length ? `<div class="task-list">${upcoming.map(taskMarkup).join("")}</div>` : `<div class="empty-state"><span>✦</span><strong>A fresh start.</strong><p>Add one small task to get moving.</p></div>`}</section>
+          <section class="task-group"><div class="task-group-heading"><h2>Up next</h2><span>${upcoming.length}</span></div>${upcoming.length ? `<div class="task-list">${upcoming.map(taskMarkup).join("")}</div>` : `<div class="empty-state"><span aria-hidden="true">+</span><strong>A fresh start.</strong><p>Add one small task to get moving.</p></div>`}</section>
           ${completed.length ? `<section class="task-group completed-tasks"><div class="task-group-heading"><h2>Done</h2><span>${completed.length}</span></div><div class="task-list">${completed.map(taskMarkup).join("")}</div></section>` : ""}
         </div>
       </section>
-      <div class="practice-tip"><span>✦</span><p><strong>Keep it small.</strong> A short, specific task is easier to start than a big vague goal. You can mark it done or remove it whenever you like.</p></div>`;
+      <div class="practice-tip"><span aria-hidden="true">i</span><p><strong>Keep it small.</strong> A short, specific task is easier to start than a big vague goal. You can mark it done or remove it whenever you like.</p></div>`;
   }
 
   function flashcardsView() {
@@ -406,7 +406,7 @@
         </button>
         <div class="flashcard-controls"><button class="button button-outline" id="flashcard-previous" ${activeFlashcardIndex === 0 ? "disabled" : ""}>← Previous</button><button class="button button-outline" id="flashcard-shuffle">Shuffle</button><button class="button button-dark" id="flashcard-next">Next card <span>→</span></button></div>
       </section>
-      <div class="practice-tip"><span>✦</span><p><strong>Retrieval practice helps.</strong> Try to recall the idea before flipping the card. If you miss it, read the explanation and come back to it later.</p></div>`;
+      <div class="practice-tip"><span aria-hidden="true">↻</span><p><strong>Retrieval practice helps.</strong> Try to recall the idea before flipping the card. If you miss it, read the explanation and come back to it later.</p></div>`;
   }
 
   function progressView() {
@@ -416,8 +416,8 @@
     const recent = [...completed].reverse();
     return `<section class="page-intro"><span class="eyebrow"><span class="eyebrow-line"></span> YOUR JOURNEY</span><h1>Look how far <em>you've come.</em></h1><p>Your learning progress is stored only in this browser on this device.</p></section>
       <section class="progress-overview"><div class="progress-copy"><span class="eyebrow">LESSON PATHWAY</span><h2>${completed.length} of ${content.lessons.length} lessons</h2><p>Every completed lesson is a step forward.</p>${progressBar(pct, "large-bar")}<span class="progress-caption">${pct}% explored</span></div><div class="progress-ring" style="--progress:${pct * 3.6}deg"><div><strong>${pct}%</strong><span>COMPLETE</span></div></div></section>
-      <section class="progress-grid"><article class="progress-detail"><span class="stat-icon peach">✳</span><strong>${state.attempts}</strong><span>Practice answers tried</span></article><article class="progress-detail"><span class="stat-icon mint">✓</span><strong>${state.correct}</strong><span>Correct answers</span></article><article class="progress-detail"><span class="stat-icon sky">↗</span><strong>${attemptsPct}%</strong><span>Practice accuracy</span></article></section>
-      <section class="section-block"><div class="section-heading"><div><span class="eyebrow">YOUR CHECKPOINTS</span><h2>Completed lessons</h2></div>${completed.length ? `<button class="text-link" id="reset-progress">Reset progress <span>↻</span></button>` : ""}</div>${recent.length ? `<div class="completed-list">${recent.map(item => `<button class="completed-item" data-lesson="${item.id}"><span class="completed-check">✓</span><span><strong>${escapeHtml(item.title)}</strong><small>${escapeHtml(item.subject)} · ${escapeHtml(item.grade)}</small></span><span class="item-arrow">→</span></button>`).join("")}</div>` : `<div class="empty-state"><span>✦</span><strong>Your first checkpoint is waiting.</strong><p>Complete a lesson to see it here.</p><button class="button button-dark" data-view="learn">Find a lesson <span>→</span></button></div>`}</section>
+      <section class="progress-grid"><article class="progress-detail"><span class="stat-icon peach">↻</span><strong>${state.attempts}</strong><span>Practice answers tried</span></article><article class="progress-detail"><span class="stat-icon mint">✓</span><strong>${state.correct}</strong><span>Correct answers</span></article><article class="progress-detail"><span class="stat-icon sky">↗</span><strong>${attemptsPct}%</strong><span>Practice accuracy</span></article></section>
+      <section class="section-block"><div class="section-heading"><div><span class="eyebrow">YOUR CHECKPOINTS</span><h2>Completed lessons</h2></div>${completed.length ? `<button class="text-link" id="reset-progress">Reset progress <span>↻</span></button>` : ""}</div>${recent.length ? `<div class="completed-list">${recent.map(item => `<button class="completed-item" data-lesson="${item.id}"><span class="completed-check">✓</span><span><strong>${escapeHtml(item.title)}</strong><small>${escapeHtml(item.subject)} · ${escapeHtml(item.grade)}</small></span><span class="item-arrow">→</span></button>`).join("")}</div>` : `<div class="empty-state"><span aria-hidden="true">○</span><strong>Your first checkpoint is waiting.</strong><p>Complete a lesson to see it here.</p><button class="button button-dark" data-view="learn">Find a lesson <span>→</span></button></div>`}</section>
       <button class="reset-all" id="clear-all-progress">Clear all saved progress on this device</button>`;
   }
 

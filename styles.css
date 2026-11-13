@@ -1229,7 +1229,7 @@ h1 em { color: #168a72; }
 .math-game-heading h2 { font: 700 16px "Manrope", sans-serif; margin: 6px 0 0; }
 .game-best-badge { padding: 8px 11px; border-radius: 999px; background: #fff3e5; color: #9c704b; font-size: 8px; font-weight: 700; letter-spacing: .45px; white-space: nowrap; }
 .game-start-panel, .game-results { max-width: 530px; margin: 23px auto 8px; padding: 20px 10px; text-align: center; }
-.game-star { display: block; color: #d29d57; font-size: 32px; margin-bottom: 9px; }
+.game-mark { display: block; color: #d29d57; font-size: 32px; margin-bottom: 9px; }
 .game-start-panel h2, .game-results h2 { font: 700 20px/1.45 "Manrope", sans-serif; margin: 7px 0 9px; }
 .game-start-panel > p, .game-results > p { color: #788780; font-size: 11px; line-height: 1.7; margin: 0 auto 17px; max-width: 440px; }
 .game-setup-fields { display: flex; justify-content: center; gap: 12px; }
